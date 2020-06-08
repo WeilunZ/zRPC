@@ -24,15 +24,29 @@ var New = func() ClientTransport {
 	}
 }
 
+func RegisterClientTransport(name string, clientTransport ClientTransport) {
+	if clientTransportMap == nil {
+		clientTransportMap = make(map[string]ClientTransport)
+	}
+	clientTransportMap[name] = clientTransport
+}
+
+// Get the ServerTransport
+func GetClientTransport(transport string) ClientTransport {
+
+	if v, ok := clientTransportMap[transport]; ok {
+		return v
+	}
+
+	return DefaultClientTransport
+}
+
 func (c *clientTransport) Send(ctx context.Context, req []byte, opts ...ClientTransportOption) ([]byte, error) {
 	for _, o := range opts {
 		o(c.opts)
 	}
 	if c.opts.Network == "tcp" {
 		return c.SendTcpReq(ctx, req)
-	}
-	if c.opts.Network == "udp" {
-		return c.sendUdpReq(ctx, req)
 	}
 	return nil, fmt.Errorf("network type not supported")
 }
@@ -81,10 +95,6 @@ func (c *clientTransport) SendTcpReq(ctx context.Context, req []byte) ([]byte, e
 	}
 
 	return frame, err
-}
-
-func (c *clientTransport) sendUdpReq(ctx context.Context, bytes []byte) ([]byte, error) {
-
 }
 
 func isDone(ctx context.Context) error {

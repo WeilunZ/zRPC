@@ -1,78 +1,82 @@
 package server
 
-import "time"
+import (
+	"time"
+
+	"github.com/WeilunZ/myrpc/components/interceptor"
+)
 
 type ServerOptions struct {
-	address           string //e.g. 127.0.0.1:8080/www.baidu.com
-	network           string // e.g. tcp/udp
-	protocol          string
-	timeout           time.Duration
-	serializationType string   // serialization type, default: proto
-	selectorSvrAddr   string   // service discovery server address, required when using the third-party service discovery plugin
-	tracingSvrAddr    string   // tracing plugin server address, required when using the third-party tracing plugin
-	tracingSpanName   string   // tracing span name, required when using the third-party tracing plugin
-	pluginNames       []string // plugin name
-	interceptors      []interceptor.ServerInterceptor
+	Address           string //e.g. 127.0.0.1:8080/www.baidu.com
+	Network           string // e.g. tcp/udp
+	Protocol          string
+	Timeout           time.Duration
+	SerializationType string   // serialization type, default: proto
+	SelectorSvrAddr   string   // service discovery server Address, required when using the third-party service discovery plugin
+	TracingSvrAddr    string   // tracing plugin server Address, required when using the third-party tracing plugin
+	TracingSpanName   string   // tracing span name, required when using the third-party tracing plugin
+	PluginNames       []string // plugin name
+	Interceptors      []interceptor.ServerInterceptor
 }
 
 type ServerOption func(*ServerOptions)
 
 func WithAddress(address string) ServerOption {
 	return func(o *ServerOptions) {
-		o.address = address
+		o.Address = address
 	}
 }
 
 func WithNetwork(network string) ServerOption {
 	return func(o *ServerOptions) {
-		o.network = network
+		o.Network = network
 	}
 }
 
 func WithProtocol(protocol string) ServerOption {
 	return func(o *ServerOptions) {
-		o.protocol = protocol
+		o.Protocol = protocol
 	}
 }
 
 func WithTimeOut(timeout time.Duration) ServerOption {
 	return func(o *ServerOptions) {
-		o.timeout = timeout
+		o.Timeout = timeout
 	}
 }
 
 func WithSerializationType(serializationType string) ServerOption {
 	return func(o *ServerOptions) {
-		o.serializationType = serializationType
+		o.SerializationType = serializationType
 	}
 }
 
 func WithSelectorSvrAddr(selectorSvrAddr string) ServerOption {
 	return func(o *ServerOptions) {
-		o.selectorSvrAddr = selectorSvrAddr
+		o.SelectorSvrAddr = selectorSvrAddr
 	}
 }
 
 func WithTracingSvrAddr(tracingSvrAddr string) ServerOption {
 	return func(o *ServerOptions) {
-		o.tracingSvrAddr = tracingSvrAddr
+		o.TracingSvrAddr = tracingSvrAddr
 	}
 }
 
 func WithTracingSpanName(tracingSpanName string) ServerOption {
 	return func(o *ServerOptions) {
-		o.tracingSpanName = tracingSpanName
+		o.TracingSpanName = tracingSpanName
 	}
 }
 
 func WithPluginNames(pluginNames []string) ServerOption {
 	return func(o *ServerOptions) {
-		o.pluginNames = pluginNames
+		o.PluginNames = pluginNames
 	}
 }
 
 func WithInterceptors(interceptors []interceptor.ServerInterceptor) ServerOption {
 	return func(o *ServerOptions) {
-		o.interceptors = interceptors
+		o.Interceptors = interceptors
 	}
 }

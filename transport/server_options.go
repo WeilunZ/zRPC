@@ -1,11 +1,15 @@
 package transport
 
-import "time"
+import (
+	"context"
+	"time"
+)
 
 type ServerTransportOptions struct {
 	Address         string
 	Network         string
 	Timeout         time.Duration
+	Protocol        string // proto, json
 	Handler         Handler
 	Serialization   string        // serialization type
 	KeepAlivePeriod time.Duration // keepalive period
@@ -14,7 +18,7 @@ type ServerTransportOptions struct {
 type ServerTransportOption func(*ServerTransportOptions)
 
 type Handler interface {
-	Handle()
+	Handle(context.Context, []byte) ([]byte, error)
 }
 
 // WithServerAddress returns a ServerTransportOption which sets the value for address
@@ -35,6 +39,12 @@ func WithServerNetwork(network string) ServerTransportOption {
 func WithServerTimeout(timeout time.Duration) ServerTransportOption {
 	return func(o *ServerTransportOptions) {
 		o.Timeout = timeout
+	}
+}
+
+func WithProtocol(protocol string) ServerTransportOption {
+	return func(o *ServerTransportOptions) {
+		o.Protocol = protocol
 	}
 }
 

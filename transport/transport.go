@@ -7,7 +7,7 @@ import (
 	"io"
 	"net"
 
-	"github.com/WeilunZ/myrpc/codec"
+	"github.com/WeilunZ/myrpc/components/codec"
 )
 
 const (
@@ -66,4 +66,16 @@ func (fr *frameReader) ReadFrame(conn net.Conn) ([]byte, error) {
 	}
 
 	return append(frameHeader, fr.buffer[:length]...), nil
+}
+
+type connWrapper struct {
+	net.Conn
+	framer FrameReader
+}
+
+func wrapConn(rawConn net.Conn) *connWrapper {
+	return &connWrapper{
+		Conn:   rawConn,
+		framer: NewFrameReader(),
+	}
 }

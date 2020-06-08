@@ -45,9 +45,9 @@ type logger struct {
 type level int
 
 type Options struct {
-	path         string `default:"../log/myrpc.log"`
-	frameLogPath string `default:"../log/frame.log"`
-	level        level  `default:"debug"`
+	Path         string `default:"../log/myrpc.log"`
+	FrameLogPath string `default:"../log/frame.log"`
+	Level        level  `default:"debug"`
 }
 
 func init() {
@@ -58,7 +58,7 @@ func init() {
 	DefaultLog = &logger{
 		Logger: log.New(file, "", log.LstdFlags|log.Lshortfile),
 		options: &Options{
-			level: DEBUG,
+			Level: DEBUG,
 		},
 	}
 }
@@ -84,19 +84,19 @@ func (level level) ToString() string {
 
 func (o *Options) WithPath(path string) func(*Options) {
 	return func(options *Options) {
-		options.path = path
+		options.Path = path
 	}
 }
 
 func (o *Options) WithFrameLogPath(frameLogPath string) func(*Options) {
 	return func(options *Options) {
-		options.frameLogPath = frameLogPath
+		options.FrameLogPath = frameLogPath
 	}
 }
 
 func (o *Options) WithLevel(level level) func(*Options) {
 	return func(options *Options) {
-		options.level = level
+		options.Level = level
 	}
 }
 
@@ -111,7 +111,7 @@ func Tracef(format string, v ...interface{}) {
 }
 
 func (log *logger) Trace(v ...interface{}) {
-	if log.options.level > TRACE {
+	if log.options.Level > TRACE {
 		return
 	}
 	data := log.Prefix() + fmt.Sprint(v...)
@@ -119,7 +119,7 @@ func (log *logger) Trace(v ...interface{}) {
 }
 
 func (log *logger) Tracef(format string, v ...interface{}) {
-	if log.options.level > TRACE {
+	if log.options.Level > TRACE {
 		return
 	}
 	data := log.Prefix() + fmt.Sprintf(format, v...)
@@ -137,7 +137,7 @@ func Debugf(format string, v ...interface{}) {
 }
 
 func (log *logger) Debug(v ...interface{}) {
-	if log.options.level > DEBUG {
+	if log.options.Level > DEBUG {
 		return
 	}
 	data := log.Prefix() + fmt.Sprint(v...)
@@ -145,7 +145,7 @@ func (log *logger) Debug(v ...interface{}) {
 }
 
 func (log *logger) Debugf(format string, v ...interface{}) {
-	if log.options.level > DEBUG {
+	if log.options.Level > DEBUG {
 		return
 	}
 	data := log.Prefix() + fmt.Sprintf(format, v...)
@@ -163,7 +163,7 @@ func Infof(format string, v ...interface{}) {
 }
 
 func (log *logger) Info(v ...interface{}) {
-	if log.options.level > INFO {
+	if log.options.Level > INFO {
 		return
 	}
 	data := log.Prefix() + fmt.Sprint(v...)
@@ -171,7 +171,7 @@ func (log *logger) Info(v ...interface{}) {
 }
 
 func (log *logger) Infof(format string, v ...interface{}) {
-	if log.options.level > INFO {
+	if log.options.Level > INFO {
 		return
 	}
 	data := log.Prefix() + fmt.Sprintf(format, v...)
@@ -189,7 +189,7 @@ func Warningf(format string, v ...interface{}) {
 }
 
 func (log *logger) Warning(v ...interface{}) {
-	if log.options.level > WARNING {
+	if log.options.Level > WARNING {
 		return
 	}
 	data := log.Prefix() + fmt.Sprint(v...)
@@ -197,7 +197,7 @@ func (log *logger) Warning(v ...interface{}) {
 }
 
 func (log *logger) Warningf(format string, v ...interface{}) {
-	if log.options.level > WARNING {
+	if log.options.Level > WARNING {
 		return
 	}
 	data := log.Prefix() + fmt.Sprintf(format, v...)
@@ -215,7 +215,7 @@ func Errorf(format string, v ...interface{}) {
 }
 
 func (log *logger) Error(v ...interface{}) {
-	if log.options.level > ERROR {
+	if log.options.Level > ERROR {
 		return
 	}
 	data := log.Prefix() + fmt.Sprint(v...)
@@ -223,7 +223,7 @@ func (log *logger) Error(v ...interface{}) {
 }
 
 func (log *logger) Errorf(format string, v ...interface{}) {
-	if log.options.level > ERROR {
+	if log.options.Level > ERROR {
 		return
 	}
 	data := log.Prefix() + fmt.Sprintf(format, v...)
@@ -241,7 +241,7 @@ func Fatalf(format string, v ...interface{}) {
 }
 
 func (log *logger) Fatal(v ...interface{}) {
-	if log.options.level > FATAL {
+	if log.options.Level > FATAL {
 		return
 	}
 	data := log.Prefix() + fmt.Sprint(v...)
@@ -249,7 +249,7 @@ func (log *logger) Fatal(v ...interface{}) {
 }
 
 func (log *logger) Fatalf(format string, v ...interface{}) {
-	if log.options.level > FATAL {
+	if log.options.Level > FATAL {
 		return
 	}
 	data := log.Prefix() + fmt.Sprintf(format, v...)

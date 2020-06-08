@@ -3,8 +3,8 @@ package transport
 import (
 	"time"
 
-	"github.com/WeilunZ/myrpc/connpool"
-	"github.com/WeilunZ/myrpc/selector"
+	"github.com/WeilunZ/myrpc/components/connpool"
+	"github.com/WeilunZ/myrpc/components/selector"
 )
 
 type ClientTransportOptions struct {

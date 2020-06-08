@@ -5,17 +5,19 @@ import (
 	"os/signal"
 	"reflect"
 	"syscall"
+
+	tinyRPC "github.com/WeilunZ/myrpc"
 )
 
 type Server struct {
 	opts     *ServerOptions
-	services map[string]Service
+	services map[string]tinyRPC.Service
 }
 
 func NewServer(opt ...ServerOption) {
 	s := &Server{
 		opts:     &ServerOptions{},
-		services: make(map[string]Service),
+		services: make(map[string]tinyRPC.Service),
 	}
 	for _, o := range opt {
 		o(s.opts)
