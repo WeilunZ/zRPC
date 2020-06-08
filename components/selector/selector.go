@@ -28,7 +28,7 @@ func RegisterSelector(name string, selector Selector) {
 }
 
 func (d *defaultSelector) Select(serviceName string) (string, error) {
-
+	// 会基于服务发现的第三方库如zookeeper,consul,etcd等实现，此处忽略
 	return "", nil
 }
 

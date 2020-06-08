@@ -5,6 +5,9 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/WeilunZ/myrpc/components/interceptor"
+	"github.com/WeilunZ/myrpc/components/utils"
+
 	"github.com/WeilunZ/myrpc/components/metrics"
 
 	"github.com/WeilunZ/myrpc/components/connpool"
@@ -57,6 +60,27 @@ func (c *defaultClient) Call(ctx context.Context, servicePath string,
 }
 
 func (c *defaultClient) Invoke(ctx context.Context, req, resp interface{}, path string, opts ...Option) error {
+	for _, o := range opts {
+		o(c.opts)
+	}
+
+	if c.opts.timeout > 0 {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(ctx, c.opts.timeout)
+		defer cancel()
+	}
+
+	serviceName, method, err := utils.ParseServicePath(path)
+	if err != nil {
+		return err
+	}
+	c.opts.serviceName = serviceName
+	c.opts.method = method
+
+	return interceptor.ClientIntercept(ctx, req, resp, c.opts.interceptors, c.doInvoke)
+}
+
+func (c *defaultClient) doInvoke(ctx context.Context, req, rsp interface{}) error {
 	serialization := codec.GetSerialization(c.opts.serializationType)
 	payload, err := serialization.Serialize(req)
 	if err != nil {
@@ -110,7 +134,7 @@ func (c *defaultClient) Invoke(ctx context.Context, req, resp interface{}, path 
 	}
 
 	invokeStatusCounter.WithLabelValues("success").Inc()
-	return serialization.Deserialize(response.Payload, resp)
+	return serialization.Deserialize(response.Payload, rsp)
 }
 
 func (c *defaultClient) NewClientTransport() transport.ClientTransport {
@@ -126,7 +150,9 @@ func addReqHeader(ctx context.Context, client *defaultClient, payload []byte) *p
 	request := &protocol.Request{
 		ServicePath: servicePath,
 		Payload:     payload,
-		Metadata:    nil,
+		Metadata: map[string][]byte{
+			"hashKey": []byte(ctx.Value("hashKey").(string)),
+		},
 	}
 
 	return request
