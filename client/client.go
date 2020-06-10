@@ -5,19 +5,19 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/WeilunZ/myrpc/components/interceptor"
-	"github.com/WeilunZ/myrpc/components/utils"
+	"github.com/WeilunZ/zRPC/components/interceptor"
+	"github.com/WeilunZ/zRPC/components/utils"
 
-	"github.com/WeilunZ/myrpc/components/metrics"
+	"github.com/WeilunZ/zRPC/components/metrics"
 
-	"github.com/WeilunZ/myrpc/components/connpool"
-	"github.com/WeilunZ/myrpc/components/selector"
-	"github.com/WeilunZ/myrpc/components/state"
-	"github.com/WeilunZ/myrpc/transport"
+	"github.com/WeilunZ/zRPC/components/connpool"
+	"github.com/WeilunZ/zRPC/components/selector"
+	"github.com/WeilunZ/zRPC/components/state"
+	"github.com/WeilunZ/zRPC/transport"
 
-	"github.com/WeilunZ/myrpc/components/protocol"
+	"github.com/WeilunZ/zRPC/components/protocol"
 
-	"github.com/WeilunZ/myrpc/components/codec"
+	"github.com/WeilunZ/zRPC/components/codec"
 	"github.com/golang/protobuf/proto"
 )
 

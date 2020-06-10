@@ -3,8 +3,8 @@ package client
 import (
 	"time"
 
-	"github.com/WeilunZ/myrpc/components/interceptor"
-	"github.com/WeilunZ/myrpc/transport"
+	"github.com/WeilunZ/zRPC/components/interceptor"
+	"github.com/WeilunZ/zRPC/transport"
 )
 
 // Options defines the client call parameters

@@ -3,13 +3,13 @@ package metrics
 import (
 	"net/http"
 
-	"github.com/WeilunZ/myrpc/components/log"
+	"github.com/WeilunZ/zRPC/components/log"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 const (
-	namespace = "tinyRPC"
+	namespace = "zRPC"
 )
 
 var (

@@ -1,6 +1,6 @@
 syntax = "proto3";
 package protocol;
-option go_package = "github.com/WeilunZ/myrpc/protocol";
+option go_package = "github.com/WeilunZ/zRPC/protocol";
 
 message Request {
     string  service_path = 2;          // 请求服务路径

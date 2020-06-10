@@ -8,10 +8,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/WeilunZ/myrpc/components/codec"
-	"github.com/WeilunZ/myrpc/components/log"
-	"github.com/WeilunZ/myrpc/components/protocol"
-	"github.com/WeilunZ/myrpc/components/state"
+	"github.com/WeilunZ/zRPC/components/codec"
+	"github.com/WeilunZ/zRPC/components/log"
+	"github.com/WeilunZ/zRPC/components/protocol"
+	"github.com/WeilunZ/zRPC/components/state"
 	"github.com/golang/protobuf/proto"
 )
 

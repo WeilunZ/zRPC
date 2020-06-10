@@ -16,7 +16,7 @@ const (
 	FATAL
 )
 
-const DefaultLogPath = "../myrpc.log"
+const DefaultLogPath = "../zRPC.log"
 
 var (
 	DefaultLog *logger
@@ -45,7 +45,7 @@ type logger struct {
 type level int
 
 type Options struct {
-	Path         string `default:"../log/myrpc.log"`
+	Path         string `default:"../log/zRPC.log"`
 	FrameLogPath string `default:"../log/frame.log"`
 	Level        level  `default:"debug"`
 }

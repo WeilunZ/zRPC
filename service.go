@@ -1,27 +1,25 @@
-package tinyRPC
+package zRPC
 
 import (
 	"context"
 	"errors"
 
-	"github.com/WeilunZ/myrpc/components/log"
+	"github.com/WeilunZ/zRPC/components/log"
 
-	"github.com/WeilunZ/myrpc/components/utils"
+	"github.com/WeilunZ/zRPC/components/utils"
 
-	"github.com/WeilunZ/myrpc/components/codec"
-	"github.com/WeilunZ/myrpc/components/protocol"
+	"github.com/WeilunZ/zRPC/components/codec"
+	"github.com/WeilunZ/zRPC/components/protocol"
 	"github.com/golang/protobuf/proto"
 
-	"github.com/WeilunZ/myrpc/transport"
+	"github.com/WeilunZ/zRPC/transport"
 
-	"github.com/WeilunZ/myrpc/components/interceptor"
-
-	"github.com/WeilunZ/myrpc/server"
+	"github.com/WeilunZ/zRPC/components/interceptor"
 )
 
 type Service interface {
 	Register(string, Handler)
-	Serve(*server.ServerOptions)
+	Serve(*ServerOptions)
 	Close()
 }
 
@@ -31,8 +29,16 @@ type service struct {
 	cancel      context.CancelFunc // context 的控制器
 	serviceName string             // 服务名
 	handlers    map[string]Handler
-	opts        *server.ServerOptions // 参数选项
-	closing     bool                  // 服务停止中？
+	opts        *ServerOptions // 参数选项
+	closing     bool           // 服务停止中？
+}
+
+func (s *service) Close() {
+	s.closing = true
+	if s.cancel != nil {
+		s.cancel()
+	}
+	log.Info("service closing ...")
 }
 
 type ServiceDesc struct {
@@ -55,7 +61,7 @@ func (s *service) Register(handlerName string, handler Handler) {
 	s.handlers[handlerName] = handler
 }
 
-func (s *service) Serve(opts *server.ServerOptions) {
+func (s *service) Serve(opts *ServerOptions) {
 	s.opts = opts
 	transportOpts := []transport.ServerTransportOption{
 		transport.WithServerAddress(s.opts.Address),

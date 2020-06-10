@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/WeilunZ/myrpc/components/interceptor"
-	"github.com/WeilunZ/myrpc/plugin"
+	"github.com/WeilunZ/zRPC/components/interceptor"
+	"github.com/WeilunZ/zRPC/plugin"
 	"github.com/opentracing/opentracing-go"
 	"github.com/opentracing/opentracing-go/ext"
 	"github.com/opentracing/opentracing-go/log"

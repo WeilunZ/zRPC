@@ -7,7 +7,7 @@ import (
 	"io"
 	"net"
 
-	"github.com/WeilunZ/myrpc/components/codec"
+	"github.com/WeilunZ/zRPC/components/codec"
 )
 
 const (

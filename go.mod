@@ -1,4 +1,4 @@
-module github.com/WeilunZ/myrpc
+module github.com/WeilunZ/zRPC
 
 go 1.13
 

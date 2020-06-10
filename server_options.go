@@ -1,9 +1,9 @@
-package server
+package zRPC
 
 import (
 	"time"
 
-	"github.com/WeilunZ/myrpc/components/interceptor"
+	"github.com/WeilunZ/zRPC/components/interceptor"
 )
 
 type ServerOptions struct {

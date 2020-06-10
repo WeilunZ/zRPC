@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/WeilunZ/myrpc/components/selector"
-	"github.com/WeilunZ/myrpc/plugin"
+	"github.com/WeilunZ/zRPC/components/selector"
+	"github.com/WeilunZ/zRPC/plugin"
 	"github.com/hashicorp/consul/api"
 )
 
