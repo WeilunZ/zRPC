@@ -1,7 +1,9 @@
 package codec
 
 import (
+	"bytes"
 	"errors"
+	"github.com/vmihailenco/msgpack/v5"
 	"math"
 	"sync"
 
@@ -9,8 +11,9 @@ import (
 )
 
 const (
-	Proto = "proto"
-	Json  = "json"
+	Proto   = "proto"
+	Json    = "json"
+	MsgPack = "msgpack" //基于反射的第三方序列化协议
 )
 
 type Serialization interface {
@@ -34,6 +37,17 @@ type cachedBuffer struct {
 
 var serializationMap = make(map[string]Serialization)
 
+func init() {
+	RegisterSerialization(MsgPack, &msgPackSerialization{})
+	RegisterSerialization(Proto, &protoSerialization{})
+}
+
+func RegisterSerialization(name string, serialization Serialization) {
+	if _, ok := serializationMap[name]; !ok {
+		serializationMap[name] = serialization
+	}
+}
+
 func GetSerialization(name string) Serialization {
 	if v, ok := serializationMap[name]; ok {
 		return v
@@ -46,6 +60,7 @@ var DefaultSerialization = func() Serialization {
 }()
 
 type protoSerialization struct{}
+type msgPackSerialization struct{}
 
 func (p *protoSerialization) Serialize(v interface{}) ([]byte, error) {
 	if v == nil {
@@ -94,5 +109,18 @@ func (p *protoSerialization) Deserialize(data []byte, v interface{}) error {
 	err := buffer.Unmarshal(protoMsg)
 	buffer.SetBuf(nil)
 	bufferPool.Put(buffer)
+	return err
+}
+
+func (m *msgPackSerialization) Serialize(v interface{}) ([]byte, error) {
+	var buf bytes.Buffer
+	encoder := msgpack.NewEncoder(&buf)
+	err := encoder.Encode(v)
+	return buf.Bytes(), err
+}
+
+func (m *msgPackSerialization) Deserialize(data []byte, v interface{}) error {
+	decoder := msgpack.NewDecoder(bytes.NewReader(data))
+	err := decoder.Decode(v)
 	return err
 }

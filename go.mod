@@ -9,5 +9,6 @@ require (
 	github.com/prometheus/client_golang v1.6.0
 	github.com/uber/jaeger-client-go v2.23.1+incompatible // indirect
 	github.com/uber/jaeger-lib v2.2.0+incompatible // indirect
+	github.com/vmihailenco/msgpack/v5 v5.0.0-beta.1
 	go.uber.org/atomic v1.6.0 // indirect
 )

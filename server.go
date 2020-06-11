@@ -76,7 +76,7 @@ func getServiceMethods(serviceType reflect.Type, serviceValue reflect.Value) ([]
 		method := &Method{
 			MethodName: m.Name,
 			Handler: func(service interface{}, ctx context.Context, deserialize func(interface{}) error, interceptors []interceptor.ServerInterceptor) (interface{}, error) {
-				reqType := reflect.TypeOf(m.Type.In(2))
+				reqType := m.Type.In(2)
 				req := reflect.New(reqType.Elem()).Interface()
 				if err := deserialize(req); err != nil {
 					return nil, err

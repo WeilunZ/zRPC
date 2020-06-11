@@ -15,10 +15,6 @@ const FrameHeaderLength = 15
 const MagicNumber = 0x11
 const Version = 0
 
-var (
-	MsgPack = ""
-)
-
 // FrameHeader : [魔数1b][版本号1b][消息类型1b][请求类型1b][是否压缩1b][流id2b][消息长度4b][保留位4b]
 type FrameHeader struct {
 	Magic        uint8  // magic

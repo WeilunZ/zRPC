@@ -52,7 +52,7 @@ func (fr *frameReader) ReadFrame(conn net.Conn) ([]byte, error) {
 
 	length := binary.BigEndian.Uint32(frameHeader[7:11])
 
-	if length < MaxPayLoadLength {
+	if length > MaxPayLoadLength {
 		return nil, fmt.Errorf("payload too large")
 	}
 

@@ -150,9 +150,6 @@ func addReqHeader(ctx context.Context, client *defaultClient, payload []byte) *p
 	request := &protocol.Request{
 		ServicePath: servicePath,
 		Payload:     payload,
-		Metadata: map[string][]byte{
-			"hashKey": []byte(ctx.Value("hashKey").(string)),
-		},
 	}
 
 	return request
