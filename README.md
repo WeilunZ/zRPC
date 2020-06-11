@@ -49,9 +49,7 @@ func main(){
 	req := &helloworld.HelloRequest{
 		Msg:"hello",
 	}
-	resp := &helloworld.HelloResponse{
-		Msg: "world",
-	}
+	resp := &helloworld.HelloResponse{}
 	err := c.Call(context.Background(), "/helloworld.Greeter/SayHello", req, resp, opts...)
 	fmt.Println(resp.Msg, err)
 }
