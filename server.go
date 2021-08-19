@@ -3,6 +3,8 @@ package zRPC
 import (
 	"context"
 	"fmt"
+	"github.com/WeilunZ/zRPC/plugin/consul"
+	"github.com/WeilunZ/zRPC/plugin/tracing"
 	"os"
 	"os/signal"
 	"reflect"
@@ -22,7 +24,15 @@ type Server struct {
 	closing  bool
 }
 
+func initSupportedPlugins(){
+	consul.Init()
+	tracing.Init()
+}
+
 func NewServer(opt ...ServerOption) *Server {
+
+	initSupportedPlugins()
+
 	s := &Server{
 		opts:     &ServerOptions{},
 		services: make(map[string]Service),
@@ -151,7 +161,10 @@ func (s *Server) Register(sd *ServiceDesc, svr interface{}) {
 }
 
 func (s *Server) Serve() {
-	//TODO init plugins
+	err := s.InitPlugins()
+	if err != nil {
+		panic(err)
+	}
 
 
 	for _, service := range s.services {

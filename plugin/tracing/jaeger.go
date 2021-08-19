@@ -23,7 +23,7 @@ const Name = "jaeger"
 const JaegerClientName = "gorpc-client-jaeger"
 const JaegerServerName = "gorpc-server-jaeger"
 
-func init() {
+func Init() {
 	plugin.Register(Name, JaegerSvr)
 }
 
@@ -87,9 +87,9 @@ func OpenTracingServerInterceptor(tracer opentracing.Tracer, spanName string) in
 
 }
 
-func Init(tracingSvrAddr string, opts ...plugin.Option) (opentracing.Tracer, error) {
-	return initJaeger(tracingSvrAddr, JaegerClientName, opts...)
-}
+//func Init(tracingSvrAddr string, opts ...plugin.Option) (opentracing.Tracer, error) {
+//	return initJaeger(tracingSvrAddr, JaegerClientName, opts...)
+//}
 
 func (j *Jaeger) Init(opts ...plugin.Option) (opentracing.Tracer, error) {
 
