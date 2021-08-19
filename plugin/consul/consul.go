@@ -23,7 +23,7 @@ type Consul struct {
 
 const Name = "consul"
 
-func Init() {
+func init() {
 	plugin.Register(Name, ConsulSvr)
 	selector.RegisterSelector(Name, ConsulSvr)
 }
@@ -133,13 +133,13 @@ func (c *Consul) Init(opts ...plugin.Option) error {
 	return nil
 }
 
-//// Init implements the initialization of the consul configuration when the framework is loaded
-//func Init(consulSvrAddr string, opts ...plugin.Option) error {
-//	for _, o := range opts {
-//		o(ConsulSvr.opts)
-//	}
-//
-//	ConsulSvr.opts.SelectorSvrAddr = consulSvrAddr
-//	err := ConsulSvr.InitConfig()
-//	return err
-//}
+// Init implements the initialization of the consul configuration when the framework is loaded
+func Init(consulSvrAddr string, opts ...plugin.Option) error {
+	for _, o := range opts {
+		o(ConsulSvr.opts)
+	}
+
+	ConsulSvr.opts.SelectorSvrAddr = consulSvrAddr
+	err := ConsulSvr.InitConfig()
+	return err
+}
