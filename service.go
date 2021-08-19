@@ -21,6 +21,7 @@ type Service interface {
 	Register(string, Handler)
 	Serve(*ServerOptions)
 	Close()
+	Name() string
 }
 
 type service struct {
@@ -31,6 +32,10 @@ type service struct {
 	handlers    map[string]Handler
 	opts        *ServerOptions // 参数选项
 	closing     bool           // 服务停止中？
+}
+
+func (s *service) Name() string {
+	return s.serviceName
 }
 
 func (s *service) Close() {

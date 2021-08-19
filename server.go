@@ -153,6 +153,7 @@ func (s *Server) Register(sd *ServiceDesc, svr interface{}) {
 func (s *Server) Serve() {
 	//TODO init plugins
 
+
 	for _, service := range s.services {
 		go service.Serve(s.opts)
 	}
@@ -170,4 +171,34 @@ func (s *Server) Close() {
 	for _, service := range s.services {
 		service.Close()
 	}
+}
+
+func (s *Server) InitPlugins() error {
+	// init plugins
+	for _, p := range s.plugins {
+
+		switch val := p.(type) {
+
+		case plugin.ResolverPlugin:
+			var services []string
+			for _, ss := range s.services{
+				services = append(services, ss.Name())
+			}
+			pluginOpts := []plugin.Option{
+				plugin.WithSelectorSvrAddr(s.opts.SelectorSvrAddr),
+				plugin.WithSvrAddr(s.opts.Address),
+				plugin.WithServices(services),
+			}
+			if err := val.Init(pluginOpts...); err != nil {
+				log.Errorf("resolver init error, %v", err)
+				return err
+			}
+
+		default:
+
+		}
+
+	}
+
+	return nil
 }
