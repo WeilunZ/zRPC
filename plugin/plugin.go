@@ -16,6 +16,11 @@ type TracingPlugin interface {
 	Init(...Option) (opentracing.Tracer, error)
 }
 
+// MetricsPlugin defines the standard for all metric plu-ins
+type MetricsPlugin interface {
+	Init(...Option) error
+}
+
 // PluginMap defines a global plug-in map
 var PluginMap = make(map[string]Plugin)
 
@@ -33,6 +38,7 @@ type Options struct {
 	Services        []string // service arrays
 	SelectorSvrAddr string   // server discovery address ，e.g. consul server address
 	TracingSvrAddr  string   // tracing server address，e.g. jaeger server address
+	MetricsEndpoint string   // metrics endpoint, e.g. :9300/metrics
 }
 
 // Option provides operations on Options

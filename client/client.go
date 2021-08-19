@@ -4,11 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	metrics2 "github.com/WeilunZ/zRPC/plugin/metrics"
 
 	"github.com/WeilunZ/zRPC/components/interceptor"
 	"github.com/WeilunZ/zRPC/components/utils"
-
-	"github.com/WeilunZ/zRPC/components/metrics"
 
 	"github.com/WeilunZ/zRPC/components/connpool"
 	"github.com/WeilunZ/zRPC/components/selector"
@@ -41,7 +40,7 @@ var New = func() *defaultClient {
 }
 
 var (
-	invokeStatusCounter = metrics.NewCounterVec("client_invoke_error_count", "status")
+	invokeStatusCounter = metrics2.NewCounterVec("client_invoke_error_count", "status")
 )
 
 func (c *defaultClient) Call(ctx context.Context, servicePath string,

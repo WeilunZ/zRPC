@@ -1,6 +1,7 @@
 package metrics
 
 import (
+	"github.com/WeilunZ/zRPC/plugin"
 	"net/http"
 
 	"github.com/WeilunZ/zRPC/components/log"
@@ -17,6 +18,13 @@ var (
 	Endpoint        = "/metrics"
 	DefaultRegistry = newDefaultMetricsRegistry()
 )
+
+type Prometheus struct {
+	opts *plugin.Options
+	Port string
+	Endpoint string
+	registry *prometheus.Registry
+}
 
 func Run() error {
 	log.Infof("Starting http server to serve metrics at port '%s', endpoint '%s'", Port, Endpoint)
